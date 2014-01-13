@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>GTEST_FILTER</key>
+	<string></string>
+	<key>GTEST_OUTPUT</key>
+	<string>--gtest_output=xml:/Users/gannons/Desktop/results/gtest.xml</string>
+	<key>INI_FILE</key>
+	<string>tests.ini</string>
+	<key>INI_FILE_SECTION</key>
+	<string>DEFAULT</string>
+	<key>LOG_FILE</key>
+	<string>/Users/gannons/Desktop/results/gtest.log</string>
+	<key>TEST_DATA_LOC</key>
+	<string>../TestData</string>
+</dict>
+</plist>
