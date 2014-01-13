@@ -11,11 +11,7 @@
 @class GtestSuiteViewController;
 
 @interface GtestSuiteAppDelegate : UIResponder <UIApplicationDelegate>
-{
-}
 
 @property (strong, nonatomic) UIWindow *window;
-
-@property (strong, nonatomic) GtestSuiteViewController *viewController;
 
 @end

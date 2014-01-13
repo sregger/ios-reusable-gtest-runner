@@ -13,8 +13,16 @@
     NSString * startTimestamp;
     __weak IBOutlet UILabel *startTimestampLabel;
     __weak IBOutlet UILabel *endTimestampLabel;
+    __weak IBOutlet UILabel *_startLabel;
+    __weak IBOutlet UILabel *_endLabel;
+    __weak IBOutlet UILabel *_executionLabel;
+    
+    NSDate *_startTime;
+    NSTimer *_timer;
 }
 
-- (void)testSuiteDidFinish;
+- (void) testSuiteDidFinish;
+- (void) timerFired;
+
 
 @end

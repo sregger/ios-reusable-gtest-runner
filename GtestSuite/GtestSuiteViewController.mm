@@ -9,10 +9,6 @@
 #import "GtestSuiteViewController.h"
 #import "GtestSuiteRunner.h"
 
-@interface GtestSuiteViewController ()
-
-@end
-
 @implementation GtestSuiteViewController
 
 - (void)viewDidLoad
@@ -27,12 +23,11 @@
                                                       object:nil];
     [gtestThread start];
 
-    // Display timestamps for the start and end of the test suite run
-    NSString * startLabelText =
-        [@"Tests started: " stringByAppendingString:[self stringDateNow]];
-    [startTimestampLabel setText:startLabelText];
-    NSString * endLabelText = @"Tests ended: ";
-    [endTimestampLabel setText:endLabelText];
+    _startTime = [NSDate date];
+    [_startLabel setText:[NSString stringWithFormat:@"%@",[self stringDate:_startTime]]];
+    [self timerFired]; // Avoids wait for 0.5 seconds
+    
+    _timer=[NSTimer scheduledTimerWithTimeInterval:.5 target:self selector:@selector(timerFired) userInfo:nil repeats:YES];
 }
 
 /*
@@ -40,18 +35,27 @@
  */
 - (void)testSuiteDidFinish
 {
-    NSString * endLabelText =
-        [@"Tests ended: " stringByAppendingString:[self stringDateNow]];
-    [endTimestampLabel setText:endLabelText];
+    [_endLabel setText:[NSString stringWithFormat:@"%@",[self stringDate:[NSDate date]]]];
+    [_timer invalidate];
 }
 
-- (NSString *)stringDateNow
+- (void) timerFired
+{
+    NSTimeInterval interval = [[NSDate date] timeIntervalSinceDate:_startTime];
+    NSDate *date = [NSDate dateWithTimeIntervalSince1970:interval];
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"HH:mm:ss"];
+    [dateFormatter setTimeZone:[NSTimeZone timeZoneWithName:@"UTC"]];
+    NSString *formattedDate = [dateFormatter stringFromDate:date];
+    [_executionLabel setText:[NSString stringWithFormat:@"%@", formattedDate]];
+}
+
+- (NSString *)stringDate:(NSDate*)date
 {
     NSDateFormatter * dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
     [dateFormatter setTimeStyle:NSDateFormatterMediumStyle];
-    NSDate * now = [[NSDate alloc] init];
-    return [dateFormatter stringFromDate:now];
+    return [dateFormatter stringFromDate:date];
 }
 
 - (void)didReceiveMemoryWarning
