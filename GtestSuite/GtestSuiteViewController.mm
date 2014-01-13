@@ -28,6 +28,17 @@
     [self timerFired]; // Avoids wait for 0.5 seconds
     
     _timer=[NSTimer scheduledTimerWithTimeInterval:.5 target:self selector:@selector(timerFired) userInfo:nil repeats:YES];
+    
+    // Find file "options.plist" in the application bundle
+    NSString *plistPath = [[NSBundle mainBundle]
+                           pathForResource:@"options" ofType:@"plist"];
+    NSDictionary *options = [[NSDictionary alloc]
+                             initWithContentsOfFile:plistPath];
+    
+    NSString * result_path = [options objectForKey:@"GTEST_OUTPUT"];
+    NSString* file_name_with_extension = [result_path lastPathComponent];
+    NSString* file_name = [file_name_with_extension stringByDeletingPathExtension];
+    [_titleLabel setText:file_name];
 }
 
 /*

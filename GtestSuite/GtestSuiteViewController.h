@@ -11,6 +11,7 @@
 @interface GtestSuiteViewController : UIViewController
 {
     NSString * startTimestamp;
+    __weak IBOutlet UILabel *_titleLabel;
     __weak IBOutlet UILabel *_startLabel;
     __weak IBOutlet UILabel *_endLabel;
     __weak IBOutlet UILabel *_executionLabel;

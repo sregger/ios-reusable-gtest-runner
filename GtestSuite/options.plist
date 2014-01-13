@@ -5,7 +5,7 @@
 	<key>GTEST_FILTER</key>
 	<string></string>
 	<key>GTEST_OUTPUT</key>
-	<string>--gtest_output=xml:/Users/gannons/Desktop/results/gtest.xml</string>
+	<string>--gtest_output=xml:/Users/gannons/Desktop/results/jcfcoreutils.xml</string>
 	<key>INI_FILE</key>
 	<string>tests.ini</string>
 	<key>INI_FILE_SECTION</key>
