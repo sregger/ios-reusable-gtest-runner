@@ -9,12 +9,7 @@
             <connections>
                 <outlet property="_endLabel" destination="3Zb-wN-EOK" id="POz-Td-k5D"/>
                 <outlet property="_executionLabel" destination="NZu-Vk-qLV" id="ZyG-mz-mWA"/>
-                <outlet property="_startLabel" destination="3Zb-wN-EOK" id="kAn-Sx-ECG"/>
-                <outlet property="endLabel" destination="3Zb-wN-EOK" id="N6z-Cn-R0J"/>
-                <outlet property="endTimestampLabel" destination="44" id="45"/>
-                <outlet property="executionLabel" destination="NZu-Vk-qLV" id="Kka-Kw-vaI"/>
-                <outlet property="startLabel" destination="26h-r3-mSm" id="oSZ-9v-UcP"/>
-                <outlet property="startTimestampLabel" destination="42" id="43"/>
+                <outlet property="_startLabel" destination="26h-r3-mSm" id="WQl-Zj-sdE"/>
                 <outlet property="view" destination="6" id="7"/>
             </connections>
         </placeholder>

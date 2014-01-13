@@ -100,8 +100,6 @@
 }
 
 - (void)viewDidUnload {
-    startTimestampLabel = nil;
-    endTimestampLabel = nil;
     [super viewDidUnload];
 }
 @end
