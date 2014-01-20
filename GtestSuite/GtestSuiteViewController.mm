@@ -39,6 +39,21 @@
     NSString* file_name_with_extension = [result_path lastPathComponent];
     NSString* file_name = [file_name_with_extension stringByDeletingPathExtension];
     [_titleLabel setText:file_name];
+    
+    
+    _pipe = [NSPipe pipe] ;
+    _pipeReadHandle = [_pipe fileHandleForReading] ;
+    dup2([[_pipe fileHandleForWriting] fileDescriptor], fileno(stdout)) ;
+    
+    [[NSNotificationCenter defaultCenter] addObserver: self selector: @selector(handleNotification:) name: NSFileHandleReadCompletionNotification object: _pipeReadHandle] ;
+    [_pipeReadHandle readInBackgroundAndNotify] ;
+}
+
+- (void) handleNotification:(NSNotification *) notification
+{
+    [_pipeReadHandle readInBackgroundAndNotify] ;
+    NSString *str = [[NSString alloc] initWithData: [[notification userInfo] objectForKey: NSFileHandleNotificationDataItem] encoding: NSASCIIStringEncoding] ;
+    [_textView setText:[_textView.text stringByAppendingString:str]];
 }
 
 /*

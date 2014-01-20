@@ -28,7 +28,7 @@
     NSString * logFile = [options objectForKey:@"LOG_FILE"];
 
     // Redirect logs to this file
-    [self redirectNSLog:logFile];
+    //[self redirectNSLog:logFile];
 
     return YES;
 }
@@ -38,7 +38,6 @@
  */
 - (BOOL)redirectNSLog:(NSString *)logFile
 {
-    //[@"" writeToFile:logFile atomically:YES encoding:NSUTF8StringEncoding error:nil];
     id fileHandle = [NSFileHandle fileHandleForWritingAtPath:logFile];
     if (!fileHandle)
     {
