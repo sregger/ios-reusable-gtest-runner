@@ -11,6 +11,20 @@
 
 @implementation GtestSuiteViewController
 
+- (void)setTestCaseName:(const char *)_testCaseName withTestName: (const char *)_testName
+{
+    //printf("In ViewController, test name: %s.%s\n", _testCaseName, _testName);
+    NSString *testCaseNameToDisplay = [[NSString alloc] initWithUTF8String:_testCaseName];
+    NSString *testNameToDisplay = [[NSString alloc] initWithUTF8String:_testName];
+    
+    // Enqueue an operation for the UI thread to update the test data fields
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        [testName setText:testNameToDisplay];
+        [testCaseName setText:testCaseNameToDisplay];
+    }];
+}
+
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -47,6 +61,18 @@
     
     [[NSNotificationCenter defaultCenter] addObserver: self selector: @selector(handle_stdout_Notification:) name: NSFileHandleReadCompletionNotification object: _pipeReadHandle] ;
     [_pipeReadHandle readInBackgroundAndNotify] ;
+    
+    
+    // Initialize completion message
+    [completionMessage setText:@"Tests running ..."];
+    [completionMessage setEnabled:NO];
+    
+    // Initialize test name fields
+    [testName setText:@"----"];
+    [testName setEnabled:NO];
+    [testCaseName setText:@"----"];
+    [testCaseName setEnabled:NO];
+
 }
 
 - (void) handle_stdout_Notification:(NSNotification *) notification
@@ -67,6 +93,14 @@
 {
     [_endLabel setText:[NSString stringWithFormat:@"%@",[self stringDate:[NSDate date]]]];
     [_timer invalidate];
+    
+    // Post completion message in the text field
+    [completionMessage setText:@"Tests completed."];
+    
+    // Reset the test name fields
+    [testName setText:@"----"];
+    [testCaseName setText:@"----"];
+
 }
 
 - (void) timerFired

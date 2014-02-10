@@ -301,7 +301,7 @@
 		0548080216C01FBB001601DF /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_CXX_LIBRARY = "compiler-default";
+				CLANG_CXX_LIBRARY = "libstdc++";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GtestSuite/GtestSuite-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -314,9 +314,13 @@
 					"$(inherited)",
 				);
 				"GCC_PREPROCESSOR_DEFINITIONS_NOT_USED_IN_PRECOMPS[arch=*]" = "";
-				HEADER_SEARCH_PATHS = ../../../dependencies/gtest/include;
+				HEADER_SEARCH_PATHS = (
+					../../../../dependencies/gtest/include,
+					../../../../../dependencies/gtest/include,
+					"/Users/gannons/Development/trunk/thirdparty/external/googletest-1.6.0/include",
+				);
 				INFOPLIST_FILE = "GtestSuite/GtestSuite-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/GtestSuite\"",
@@ -330,13 +334,17 @@
 		0548080316C01FBB001601DF /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_CXX_LIBRARY = "compiler-default";
+				CLANG_CXX_LIBRARY = "libstdc++";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GtestSuite/GtestSuite-Prefix.pch";
 				"GCC_PREPROCESSOR_DEFINITIONS[arch=*]" = "IOS=1";
-				HEADER_SEARCH_PATHS = ../../../dependencies/gtest/include;
+				HEADER_SEARCH_PATHS = (
+					../../../../dependencies/gtest/include,
+					../../../../../dependencies/gtest/include,
+					"/Users/gannons/Development/trunk/thirdparty/external/googletest-1.6.0/include",
+				);
 				INFOPLIST_FILE = "GtestSuite/GtestSuite-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/GtestSuite\"",

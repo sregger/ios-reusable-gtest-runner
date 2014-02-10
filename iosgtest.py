@@ -10,6 +10,12 @@ import inspect
 import shutil
 import re
 import argparse
+
+_SYSROOT = {
+    'iossimulator-7.0': 'Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator7.0.sdk/',
+    'ios-7.0': 'Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/'
+}
+abspathtodir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
     
 def terminate_simulator():
     """
@@ -21,12 +27,12 @@ def terminate_simulator():
     subprocess.call("/usr/bin/killall iPhone\ Simulator", shell=True)
     subprocess.call("/usr/bin/killall GtestSuite", shell=True)
 
-def set_iossimulator_hardware_version(iossimulator_sdk_name):
+def set_device_type_and_sdk_version(iossimulator_sdk_name):
     """
     The only known way to run a given version of the iOS Simulator is to use the defaults command.
     Please read http://wikicentral.cisco.com/display/JCF/Notes+on+iOS+Simulator
     """
-
+    iossimulator_sdk_name = iossimulator_sdk_name.replace("iphonesimulator", "iPhoneSimulator")
     print "Setting the IOS Simulator's Hardware Version to " + iossimulator_sdk_name
     currentSDKRoot = "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/" + iossimulator_sdk_name + ".sdk"
 
@@ -35,7 +41,7 @@ def set_iossimulator_hardware_version(iossimulator_sdk_name):
 
     print "Making subprocess calls..."
     subprocess.call("defaults delete com.apple.iPhoneSimulator currentSDKRoot || true", shell=True)
-    subprocess.call("defaults write com.apple.iPhoneSimulator SimulateDevice iPhone", shell=True)
+    subprocess.call("defaults write com.apple.iphonesimulator \"SimulateDevice\" \'\"iPhone (Retina)\"\'", shell=True)
     subprocess.call("defaults write com.apple.iPhoneSimulator currentSDKRoot " + currentSDKRoot, shell=True)
     subprocess.call("defaults read com.apple.iphonesimulator", shell=True)
 
@@ -57,13 +63,7 @@ def get_latest_iossimulator_sdk_name():
     # We also remove the "-sdk " string via slicing.  Note the "5:" slice.
     return sdkversions[-1][5:] 
 
-def get_latest_iossimulator_hardware_version():
-    print "Getting the latest Hardware Version of the IOS Simulator"
-    return get_latest_iossimulator_sdk_name().replace("iphonesimulator", "iPhoneSimulator")
-
-def start_app(gtest_filter=None, gtest_output='gtest_result.xml', iossimulator_xcodebuild_sdk_version=None, iossimulator_hardware_version=None, csf_TestDataLocation=None,csfConfigSection='DEFAULT'):
-    # Currently store the log file at the xcode project directory.
-    abspathtodir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+def generate_options_plist_file(csf_TestDataLocation,gtest_filter, gtest_output, csfConfigSection):
     logFile = os.path.join(abspathtodir, 'GtestSuite.log')
     
     # Generate plist with the given gtest filter and ini file values in the provided plist file 
@@ -105,15 +105,7 @@ def start_app(gtest_filter=None, gtest_output='gtest_result.xml', iossimulator_x
         if match_obj :
             iossimulator_xcodebuild_sdk_version = "iphonesimulator" + iossimulator_xcodebuild_sdk_version
 
-    # Build the iPhone Application        
-    buildCmd = "cd " + abspathtodir + " && xcodebuild -configuration Debug -sdk " + iossimulator_xcodebuild_sdk_version + " -target GtestSuite clean build install"
-    print "buildCmd: ", buildCmd
-    rc = subprocess.call(buildCmd, shell=True)
-    
-    if rc is not 0:
-        raise Exception("Failed to build the Gtest App for iOS, probably because of linker errors.  The command returned error code " + str(rc) + ".")      
-    
-    # At this point we need to copy any custom files over to the new GTest App 
+def copy_custom_files(csf_TestDataLocation):
     testdatadir = os.path.join(abspathtodir, "GtestSuite/testdata")
     # Ensure folder is created in case there are no resource files
     if not os.path.isdir( testdatadir ):
@@ -122,39 +114,37 @@ def start_app(gtest_filter=None, gtest_output='gtest_result.xml', iossimulator_x
     testfiles = os.listdir(testdatadir)
     for filename in testfiles:
         src = os.path.join(testdatadir, filename)
-        dest = os.path.join(abspathtodir, "build/Debug-iphonesimulator/GtestSuite.app", filename)
+        dest = os.path.join(abspathtodir,"build/Debug-iphonesimulator/GtestSuite.app",filename)
         if os.path.isdir(src):
             shutil.copytree(src, dest)
         else:
             shutil.copy(src, dest)
 
-    # Decide what hardware version of the simulator to use.  Use a specific simulator version if one was requested.  If not then use the latest version.
-    if not iossimulator_hardware_version is None :
-        # The user may just set the version as opposed to the name of the sdk which contains the simulator, so take care of this.
-        hardware_version_expression = re.compile("\d+\.\d+")
-        match_obj = hardware_version_expression.match(iossimulator_hardware_version)
-        if match_obj :
-            iossimulator_hardware_version = "iPhoneSimulator" + iossimulator_hardware_version
+def start_app(gtest_filter=None, gtest_output='gtest_result.xml',csf_TestDataLocation=None,csfConfigSection='DEFAULT'):
+    # Currently store the log file at the xcode project directory.
+    generate_options_plist_file(csf_TestDataLocation,gtest_filter, gtest_output, csfConfigSection)
+    
+    # Build the Xcode project using the latest sdk if None was specified.
+    # In the case that the user only enters an sdk number, as opposed to a full sdk name, concatenate iphonesimulator at the front of the number.        
+    iossimulator_xcodebuild_sdk_version = get_latest_iossimulator_sdk_name()
 
-        print "Attempting to use " + iossimulator_hardware_version + " as the hardware version of the IOS Simulator."
-        set_iossimulator_hardware_version(iossimulator_hardware_version)
-    else :
-        print "Attempting to use the latest available hardware version of the IOS Simulator."
-        set_iossimulator_hardware_version_to_latest_sdk()
+    # Build the iPhone Application        
+    buildCmd = "cd " + abspathtodir + " && xcodebuild -configuration Debug -sdk " + iossimulator_xcodebuild_sdk_version + " -target GtestSuite clean build"
+    print "buildCmd: ", buildCmd
+    rc = subprocess.call(buildCmd, shell=True)   
+    if rc is not 0:
+        raise Exception("Failed to build the Gtest App for iOS, probably because of linker errors.  The command returned error code " + str(rc) + ".")      
+    
+    # At this point we need to copy any custom files over to the new GTest App
+    copy_custom_files(csf_TestDataLocation)
+    #set device type and sdk version in the com.apple.iPhoneSimulator.plish file
+    set_device_type_and_sdk_version(iossimulator_xcodebuild_sdk_version)
     
     # Run the executable file from command line   
-    iphone_simulator_path = "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Applications/iPhone\ Simulator.app/Contents/MacOS/iPhone\ Simulator"
-    project_path = os.path.join(abspathtodir, "build/Debug-iphonesimulator/GtestSuite.app", "GtestSuite")
-    runCmd = "cd " + os.path.join(abspathtodir, "build/Debug-iphonesimulator/GtestSuite.app") + " && " + iphone_simulator_path + " -SimulateApplication " + project_path
+    UITestScript = os.path.join(os.getcwd(), "dependencies/scripts/build/gtest/test.js")
+    runCmd = "instruments -t /Applications/Xcode.app/Contents/Applications/Instruments.app/Contents/PlugIns/AutomationInstrument.bundle/Contents/Resources/Automation.tracetemplate " + os.path.join(abspathtodir, "build/Debug-iphonesimulator/GtestSuite.app ") + "-e UIASCRIPT " + UITestScript + " -e UIARESULTSPATH " + os.path.join(abspathtodir, "test.js")
     print "runCmd: ", runCmd
-    simulator_pid = subprocess.Popen(runCmd, shell=True).pid
-    
-    # Wait for user input
-    #raw_input('Press Enter key to continue')
-    
-    # Terminate the iphone simulator, our child process
-    #cmd = "kill -9 " + str(simulator_pid)
-    #subprocess.call(cmd, shell=True)
+    subprocess.call(runCmd, shell=True)
 
 if __name__ == "__main__":
 

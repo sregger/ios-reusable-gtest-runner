@@ -21,8 +21,19 @@
     
     NSPipe *_pipe;
     NSFileHandle *_pipeReadHandle;
+    
+    // String message signaling test suite completion.
+    // Added for use by Instruments UI Automation script
+    // because the UILabels' text was not readable
+    __weak IBOutlet UILabel *completionMessage;
+    
+    // To display name of Google test currently running
+    __weak IBOutlet UILabel *testName;
+    __weak IBOutlet UILabel *testCaseName;
+
 }
 
 - (void) testSuiteDidFinish;
+- (void)setTestCaseName:(const char *)_testCaseName withTestName: (const char *)_testName;
 
 @end

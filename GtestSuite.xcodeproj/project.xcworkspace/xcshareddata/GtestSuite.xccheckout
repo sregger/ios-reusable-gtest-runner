@@ -5,51 +5,45 @@
 	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
 	<false/>
 	<key>IDESourceControlProjectIdentifier</key>
-	<string>BF6D6168-5209-4EB4-BFEF-2FAA1BC22544</string>
+	<string>FC4EA614-FB38-4A11-BE7A-52CD944154FB</string>
 	<key>IDESourceControlProjectName</key>
 	<string>GtestSuite</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>3006C559-E59A-4856-9AF8-327B6AB3AAF4</key>
-		<string>https://github.com/sregger/ios-reusable-gtest-runner.git</string>
-		<key>D1911FCE-1A1C-42F0-9467-8A543971C978</key>
-		<string>https://wwwin-svn-sjc.cisco.com/jabber-all/jabber/branches/users/janoonan/useCheckDeps</string>
+		<key>39190BDA-DEFD-4BF4-B146-BC84EB44C29C</key>
+		<string>https://wwwin-svn-bxb.cisco.com/jabber-all/jabber/trunk</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>tools/scripts/build/gtest/ios-reusable-gtest-runner/GtestSuite.xcodeproj/project.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>3006C559-E59A-4856-9AF8-327B6AB3AAF4</key>
-		<string>../..</string>
-		<key>D1911FCE-1A1C-42F0-9467-8A543971C978</key>
+		<key>39190BDA-DEFD-4BF4-B146-BC84EB44C29C</key>
 		<string>../../../../../../..</string>
 	</dict>
 	<key>IDESourceControlProjectRepositoryRootDictionary</key>
 	<dict>
-		<key>D1911FCE-1A1C-42F0-9467-8A543971C978</key>
-		<string>https://wwwin-svn-sjc.cisco.com/jabber-all/jabber</string>
+		<key>39190BDA-DEFD-4BF4-B146-BC84EB44C29C</key>
+		<string>https://wwwin-svn-bxb.cisco.com/jabber-all/jabber</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>https://github.com/sregger/ios-reusable-gtest-runner.git</string>
+	<string>https://wwwin-svn-bxb.cisco.com/jabber-all/jabber/trunk/tools/scripts/build/gtest/ios-reusable-gtest-runner/GtestSuite.xcodeproj</string>
 	<key>IDESourceControlProjectVersion</key>
 	<integer>110</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>D1911FCE-1A1C-42F0-9467-8A543971C978</string>
+	<string>39190BDA-DEFD-4BF4-B146-BC84EB44C29C</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
-			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
-			<string>public.vcs.git</string>
-			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>3006C559-E59A-4856-9AF8-327B6AB3AAF4</string>
-			<key>IDESourceControlWCCName</key>
-			<string>ios-reusable-gtest-runner</string>
-		</dict>
-		<dict>
+			<key>IDESourceControlRepositoryBranchesRelativeLocationKey</key>
+			<string>branches</string>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.subversion</string>
+			<key>IDESourceControlRepositoryTagsRelativeLocationKey</key>
+			<string>tags</string>
+			<key>IDESourceControlRepositoryTrunkRelativeLocationKey</key>
+			<string>trunk</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>D1911FCE-1A1C-42F0-9467-8A543971C978</string>
+			<string>39190BDA-DEFD-4BF4-B146-BC84EB44C29C</string>
 			<key>IDESourceControlWCCName</key>
 			<string>trunk</string>
 		</dict>
