@@ -45,15 +45,19 @@
     _pipeReadHandle = [_pipe fileHandleForReading] ;
     dup2([[_pipe fileHandleForWriting] fileDescriptor], fileno(stdout)) ;
     
-    [[NSNotificationCenter defaultCenter] addObserver: self selector: @selector(handleNotification:) name: NSFileHandleReadCompletionNotification object: _pipeReadHandle] ;
+    [[NSNotificationCenter defaultCenter] addObserver: self selector: @selector(handle_stdout_Notification:) name: NSFileHandleReadCompletionNotification object: _pipeReadHandle] ;
     [_pipeReadHandle readInBackgroundAndNotify] ;
 }
 
-- (void) handleNotification:(NSNotification *) notification
+- (void) handle_stdout_Notification:(NSNotification *) notification
 {
     [_pipeReadHandle readInBackgroundAndNotify] ;
     NSString *str = [[NSString alloc] initWithData: [[notification userInfo] objectForKey: NSFileHandleNotificationDataItem] encoding: NSASCIIStringEncoding] ;
     [_textView setText:[_textView.text stringByAppendingString:str]];
+    
+    // Automatically scroll to the input text
+    NSRange range = NSMakeRange(_textView.text.length - 1, 1);
+    [_textView scrollRangeToVisible:range];
 }
 
 /*
