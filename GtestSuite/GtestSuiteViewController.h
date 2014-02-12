@@ -25,6 +25,7 @@
     // Added for use by Instruments UI Automation script
     // because the UILabels' text was not readable
     __weak IBOutlet UILabel *completionMessage;
+    __weak IBOutlet UITextField *_completionMessage;
     
     // To display name of Google test currently running
     __weak IBOutlet UILabel *testName;

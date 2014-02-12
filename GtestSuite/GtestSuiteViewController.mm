@@ -64,8 +64,8 @@
     
     
     // Initialize completion message
-    [completionMessage setText:@"Tests running ..."];
-    [completionMessage setEnabled:NO];
+    [_completionMessage setText:@"Tests running ..."];
+    [_completionMessage setEnabled:NO];
     
     // Initialize test name fields
     [testName setText:@"----"];
@@ -78,12 +78,11 @@
 - (void) handle_stdout_Notification:(NSNotification *) notification
 {
     [_pipeReadHandle readInBackgroundAndNotify] ;
-    NSString *str = [[NSString alloc] initWithData: [[notification userInfo] objectForKey: NSFileHandleNotificationDataItem] encoding: NSASCIIStringEncoding] ;
+    NSString *str = [[NSString alloc] initWithData: [[notification userInfo] objectForKey: NSFileHandleNotificationDataItem] encoding: NSASCIIStringEncoding];
     [_textView setText:[_textView.text stringByAppendingString:str]];
     
     // Automatically scroll to the input text
-    NSRange range = NSMakeRange(_textView.text.length - 1, 1);
-    [_textView scrollRangeToVisible:range];
+    [_textView scrollRangeToVisible:NSMakeRange(_textView.text.length, 0)];
 }
 
 /*
@@ -94,7 +93,7 @@
     [_timer invalidate];
     
     // Post completion message in the text field
-    [completionMessage setText:@"Tests completed."];
+    [_completionMessage setText:@"Tests completed."];
     
     // Reset the test name fields
     [testName setText:@"----"];
