@@ -5,13 +5,15 @@
 	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
 	<false/>
 	<key>IDESourceControlProjectIdentifier</key>
-	<string>FC4EA614-FB38-4A11-BE7A-52CD944154FB</string>
+	<string>6FED61DE-9199-4DEE-8D2D-C1874A5D0D03</string>
 	<key>IDESourceControlProjectName</key>
 	<string>GtestSuite</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
 		<key>39190BDA-DEFD-4BF4-B146-BC84EB44C29C</key>
 		<string>https://wwwin-svn-bxb.cisco.com/jabber-all/jabber/trunk</string>
+		<key>5733214B-69F9-4765-B036-BD9FC20A640D</key>
+		<string>https://github.com/sregger/ios-reusable-gtest-runner.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>tools/scripts/build/gtest/ios-reusable-gtest-runner/GtestSuite.xcodeproj/project.xcworkspace</string>
@@ -19,6 +21,8 @@
 	<dict>
 		<key>39190BDA-DEFD-4BF4-B146-BC84EB44C29C</key>
 		<string>../../../../../../..</string>
+		<key>5733214B-69F9-4765-B036-BD9FC20A640D</key>
+		<string>../..</string>
 	</dict>
 	<key>IDESourceControlProjectRepositoryRootDictionary</key>
 	<dict>
@@ -26,13 +30,21 @@
 		<string>https://wwwin-svn-bxb.cisco.com/jabber-all/jabber</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>https://wwwin-svn-bxb.cisco.com/jabber-all/jabber/trunk/tools/scripts/build/gtest/ios-reusable-gtest-runner/GtestSuite.xcodeproj</string>
+	<string>https://github.com/sregger/ios-reusable-gtest-runner.git</string>
 	<key>IDESourceControlProjectVersion</key>
 	<integer>110</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
 	<string>39190BDA-DEFD-4BF4-B146-BC84EB44C29C</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>5733214B-69F9-4765-B036-BD9FC20A640D</string>
+			<key>IDESourceControlWCCName</key>
+			<string>ios-reusable-gtest-runner</string>
+		</dict>
 		<dict>
 			<key>IDESourceControlRepositoryBranchesRelativeLocationKey</key>
 			<string>branches</string>

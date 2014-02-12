@@ -91,7 +91,6 @@
  */
 - (void)testSuiteDidFinish
 {
-    [_endLabel setText:[NSString stringWithFormat:@"%@",[self stringDate:[NSDate date]]]];
     [_timer invalidate];
     
     // Post completion message in the text field
