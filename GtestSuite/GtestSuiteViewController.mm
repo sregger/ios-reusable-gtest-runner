@@ -79,9 +79,9 @@
 {
     [_pipeReadHandle readInBackgroundAndNotify] ;
     NSString *str = [[NSString alloc] initWithData: [[notification userInfo] objectForKey: NSFileHandleNotificationDataItem] encoding: NSASCIIStringEncoding];
-    [_textView setText:[_textView.text stringByAppendingString:str]];
-    
-    // Automatically scroll to the input text
+    NSAttributedString* attr = [[NSAttributedString alloc] initWithString:str];
+        
+    [[_textView textStorage] appendAttributedString:attr];
     [_textView scrollRangeToVisible:NSMakeRange(_textView.text.length, 0)];
 }
 
