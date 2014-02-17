@@ -27,9 +27,7 @@
     __weak IBOutlet UILabel *completionMessage;
     __weak IBOutlet UITextField *_completionMessage;
     
-    // To display name of Google test currently running
-    __weak IBOutlet UILabel *testName;
-    __weak IBOutlet UILabel *testCaseName;
+    NSFileHandle *_logFileHandle;
 
 }
 

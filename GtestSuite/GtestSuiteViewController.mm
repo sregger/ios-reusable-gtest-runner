@@ -11,20 +11,6 @@
 
 @implementation GtestSuiteViewController
 
-- (void)setTestCaseName:(const char *)_testCaseName withTestName: (const char *)_testName
-{
-    //printf("In ViewController, test name: %s.%s\n", _testCaseName, _testName);
-    NSString *testCaseNameToDisplay = [[NSString alloc] initWithUTF8String:_testCaseName];
-    NSString *testNameToDisplay = [[NSString alloc] initWithUTF8String:_testName];
-    
-    // Enqueue an operation for the UI thread to update the test data fields
-    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-        [testName setText:testNameToDisplay];
-        [testCaseName setText:testCaseNameToDisplay];
-    }];
-}
-
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -54,6 +40,17 @@
     NSString* file_name = [file_name_with_extension stringByDeletingPathExtension];
     [_titleLabel setText:file_name];
     
+    NSString * logFile = [options objectForKey:@"LOG_FILE"];
+    bool created = [[NSFileManager defaultManager] createFileAtPath:logFile contents:nil attributes:nil];
+    
+    if (created == NO)
+    {
+        /*Create the file if it does not exist */
+        NSLog(@"%@", [NSString stringWithFormat:@"Unable to create log file %@", logFile]);
+    }
+    
+    _logFileHandle = [NSFileHandle fileHandleForWritingAtPath:logFile];
+    [_logFileHandle seekToEndOfFile];
     
     _pipe = [NSPipe pipe] ;
     _pipeReadHandle = [_pipe fileHandleForReading] ;
@@ -66,13 +63,6 @@
     // Initialize completion message
     [_completionMessage setText:@"Tests running ..."];
     [_completionMessage setEnabled:NO];
-    
-    // Initialize test name fields
-    [testName setText:@"----"];
-    [testName setEnabled:NO];
-    [testCaseName setText:@"----"];
-    [testCaseName setEnabled:NO];
-
 }
 
 - (void) handle_stdout_Notification:(NSNotification *) notification
@@ -83,6 +73,8 @@
         
     [[_textView textStorage] appendAttributedString:attr];
     [_textView scrollRangeToVisible:NSMakeRange(_textView.text.length, 0)];
+    
+    [_logFileHandle writeData:[str dataUsingEncoding:NSUTF8StringEncoding]];
 }
 
 /*
@@ -94,11 +86,6 @@
     
     // Post completion message in the text field
     [_completionMessage setText:@"Tests completed."];
-    
-    // Reset the test name fields
-    [testName setText:@"----"];
-    [testCaseName setText:@"----"];
-
 }
 
 - (void) timerFired
@@ -161,7 +148,10 @@
     return gsr;
 }
 
-- (void)viewDidUnload {
+- (void)viewDidUnload
+{
+    [_logFileHandle closeFile];
+    
     [super viewDidUnload];
 }
 @end
