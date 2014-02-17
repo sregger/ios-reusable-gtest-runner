@@ -32,6 +32,5 @@
 }
 
 - (void) testSuiteDidFinish;
-- (void)setTestCaseName:(const char *)_testCaseName withTestName: (const char *)_testName;
 
 @end
