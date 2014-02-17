@@ -36,31 +36,6 @@ static GtestSuiteRunner * g_theSuiteRunner;
 extern void testMain(int, char**, std::string);
 
 /*
- * Define a simple GoogleTest event listener that supplies the name
- * of the currently-executing test.
- */
-class GtestEventListener : public ::testing::EmptyTestEventListener
-{
-    virtual void OnTestStart(const ::testing::TestInfo& test_info) {
-        //printf("*** Test %s.%s starting.\n", test_info.test_case_name(), test_info.name());
-        [(GtestSuiteViewController *)[g_theSuiteRunner delegate]
-          setTestCaseName:test_info.test_case_name() withTestName:test_info.name() ];
-    }
-    
-    virtual void OnTestEnd(const ::testing::TestInfo& test_info) {
-    }
-};
-
-/*
- * Global function to be called from testMain() in C++ source,
- * after initGoogleTest() and before RUN_ALL_TESTS().
- */
-void setupGtestEventListener()
-{
-    ::testing::UnitTest::GetInstance()->listeners().Append(new GtestEventListener);
-}
-
-/*
  * Call the extern C++ function testMain() from here.
  * Components reusing this app will get an undefined symbol error until a
  * suitable static library is linked in.
